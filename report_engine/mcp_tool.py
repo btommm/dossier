@@ -1,13 +1,39 @@
 """
-MCP-ready stub for the report engine.
+MCP-ready stubs for dossier.
 
-Drop this into an MCP server to expose report generation as a tool call.
-The function signature is intentionally clean: plain dict in, plain dict out.
+Drop these into an MCP server to expose research + report generation as tool calls.
+All functions take plain Python types and return plain dicts — no CLI, no side effects
+beyond writing the PDF file.
+
+Typical agent usage:
+    data   = research_topic("Global SaaS market 2025")
+    result = generate_report(data, "/tmp/saas_report.pdf")
 """
 
 from __future__ import annotations
 
 from pathlib import Path
+
+
+def research_topic(
+    topic: str,
+    depth: str = "standard",
+    date: str | None = None,
+) -> dict:
+    """
+    Research a topic using Claude + web search and return a dossier-compatible data dict.
+
+    Args:
+        topic:  Research topic (e.g. "Global SaaS Market 2025")
+        depth:  "quick" (~6 searches), "standard" (~12), "deep" (~20+)
+        date:   Report date label — defaults to current month/year
+
+    Returns:
+        Dict matching the dossier ReportInput schema.
+        Pass directly to generate_report() to produce a PDF.
+    """
+    from report_engine.research import research_topic as _research
+    return _research(topic, depth=depth, date=date)  # type: ignore[arg-type]
 
 
 def generate_report(

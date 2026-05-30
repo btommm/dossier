@@ -3,14 +3,19 @@
 > Turn structured research data into consulting-grade PDF reports — in one command.
 
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
-![Tests](https://img.shields.io/badge/tests-16%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-22%20passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 ![Powered by Claude](https://img.shields.io/badge/powered%20by-Claude-orange)
 
 Dossier is a Python CLI tool that takes a JSON file of research data and compiles it into a polished, McKinsey-style PDF report. Claude selects and orders the sections for narrative coherence. WeasyPrint renders the result to a print-ready A4 PDF.
 
 ```bash
-dossier generate research.json --output report.pdf
+# One command: research a topic and generate the PDF
+dossier run "Global fintech market 2025" --output fintech.pdf
+
+# Or step by step
+dossier research "Global fintech market 2025" --output data.json
+dossier generate data.json --output fintech.pdf
 ```
 
 It's also designed as a **v1 building block** — the core logic is cleanly separated so the same engine can be called from a script, an agent pipeline, or an MCP tool with no changes.
@@ -37,23 +42,29 @@ A multi-section consulting report with:
 ## How it works
 
 ```
-JSON input
-    │
-    ▼
-Pydantic schema validation
-    │
-    ▼
-AI section selector (Claude)          ← falls back to priority sort if --no-ai
-    │  "Which sections, in what order, make the most coherent report?"
-    ▼
-Jinja2 HTML templates (one per section)
-    │
-    ▼
-CSS assembly (consulting stylesheet)
-    │
-    ▼
-WeasyPrint → PDF                      ← falls back to xhtml2pdf on Windows
+Topic string  ──►  Claude + web search  ──►  structured JSON
+                   (research.py)              (dossier schema)
+                                                    │
+                                                    ▼
+                                         Pydantic validation
+                                                    │
+                                                    ▼
+                                         AI section selector      ← --no-ai: priority sort
+                                         (Claude, selector.py)
+                                                    │
+                                                    ▼
+                                         Jinja2 HTML templates
+                                         (one per section)
+                                                    │
+                                                    ▼
+                                         CSS assembly
+                                         (consulting stylesheet)
+                                                    │
+                                                    ▼
+                                         WeasyPrint → PDF         ← Windows: xhtml2pdf fallback
 ```
+
+You can enter the pipeline at any stage — `dossier run` starts at the top, `dossier generate` starts at validation.
 
 Each section is a self-contained plugin: a Python class that declares what data fields it needs, plus a Jinja2 template. Adding a new section means adding one `.py` file and one `.html.j2` template — nothing else to change.
 
@@ -108,7 +119,31 @@ dossier generate examples/example_input.json
 
 ## CLI reference
 
-### `dossier generate <input.json>`
+### `dossier run "<topic>"` — research + generate in one step
+
+```
+dossier run "Global fintech market 2025" --output fintech.pdf
+
+-o, --output PATH              Output PDF path (default: <slug>.pdf)
+--depth [quick|standard|deep]  Research depth — quick (~6 searches),
+                                standard (~12), deep (~20+)  [default: standard]
+--date TEXT                    Report date label (default: current month/year)
+--no-ai                        Skip AI section ordering
+--preview                      Open the PDF after generation
+--save-json PATH               Also save the research JSON
+```
+
+### `dossier research "<topic>"` — research only, save JSON
+
+```
+dossier research "Global fintech market 2025" --output data.json
+
+-o, --output PATH              JSON output path (default: <slug>.json)
+--depth [quick|standard|deep]  [default: standard]
+--date TEXT                    Report date label
+```
+
+### `dossier generate <input.json>` — generate PDF from existing JSON
 
 ```
 -o, --output PATH    Output path (default: <input>.pdf)
@@ -247,38 +282,34 @@ See [`examples/example_input.json`](examples/example_input.json) (EV market, exe
 
 ## Workflows
 
-**Manual** — you supply the JSON, dossier generates the PDF:
+**One command** — research a topic and get a PDF:
 ```bash
-dossier generate research.json -o report.pdf
+dossier run "Global fintech market 2025" --output fintech.pdf
 ```
 
-**Agent-assisted** — a research agent populates the data, you run one script:
-```python
-# generate.py
-import json, subprocess
-from research_agent import fetch  # your agent or any web research tool
-
-data = fetch("Global SaaS Market 2025")
-data["title"] = "Global SaaS Market 2025"
-data["date"] = "May 2025"
-
-with open("input.json", "w") as f:
-    json.dump(data, f)
-
-subprocess.run(["dossier", "generate", "input.json"])
+**Two steps** — inspect the data before rendering:
+```bash
+dossier research "Global fintech market 2025" --output data.json
+# review / edit data.json
+dossier generate data.json --output fintech.pdf
 ```
 
-**MCP tool (v2)** — Claude calls it directly mid-conversation, no human steps:
+**In Python** — chain the two functions directly:
 ```python
+from report_engine.research import research_topic
 from report_engine.mcp_tool import generate_report
 
-result = generate_report(
-    data=research_dict,
-    output_path="/tmp/report.pdf",
-    title="Q3 Market Brief",
-    use_ai=True,
-)
-# → {"success": True, "output_path": "...", "sections_used": [...], "error": None}
+data   = research_topic("Global fintech market 2025", depth="standard")
+result = generate_report(data, output_path="fintech.pdf")
+# → {"success": True, "output_path": "fintech.pdf", "sections_used": [...], "error": None}
+```
+
+**MCP tool** — expose to any agent via an MCP server:
+```python
+from report_engine.mcp_tool import research_topic, generate_report
+# Both functions are clean stubs ready to register as MCP tools.
+# research_topic(topic, depth, date)   → dict
+# generate_report(data, output_path)   → {"success", "output_path", "sections_used", "error"}
 ```
 
 ---
@@ -287,11 +318,12 @@ result = generate_report(
 
 ```
 report_engine/
-├── cli.py                      # Click CLI (generate / list-sections / validate)
+├── cli.py                      # Click CLI (run / research / generate / validate / list-sections)
+├── research.py                 # Claude + web search → dossier-compatible JSON
 ├── selector.py                 # AI section selector + deterministic fallback
 ├── renderer.py                 # HTML assembly + WeasyPrint / xhtml2pdf
 ├── schema.py                   # Pydantic v2 input models
-├── mcp_tool.py                 # MCP-ready generate_report() stub
+├── mcp_tool.py                 # MCP-ready research_topic() + generate_report() stubs
 ├── sections/
 │   ├── __init__.py             # BaseSection base class + plugin registry
 │   ├── cover_page.py           # (one file per section)
