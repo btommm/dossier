@@ -1,0 +1,37 @@
+<div class="cover-page">
+  <div class="cover-inner">
+    {% if confidentiality %}
+    <div class="cover-confidential">{{ confidentiality }}</div>
+    {% endif %}
+
+    <div class="cover-body">
+      <div class="cover-rule"></div>
+      <h1 class="cover-title">{{ title }}</h1>
+      {% if subtitle %}
+      <p class="cover-subtitle">{{ subtitle }}</p>
+      {% endif %}
+      <div class="cover-rule cover-rule--thin"></div>
+    </div>
+
+    <div class="cover-footer">
+      {% if client %}
+      <div class="cover-footer-item">
+        <span class="cover-footer-label">Prepared for</span>
+        <span class="cover-footer-value">{{ client }}</span>
+      </div>
+      {% endif %}
+      {% if author %}
+      <div class="cover-footer-item">
+        <span class="cover-footer-label">Prepared by</span>
+        <span class="cover-footer-value">{{ author }}</span>
+      </div>
+      {% endif %}
+      {% if date %}
+      <div class="cover-footer-item">
+        <span class="cover-footer-label">Date</span>
+        <span class="cover-footer-value">{{ date }}</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<section class="report-section" id="section-recommendations">
+  <div class="section-header">
+    <h2 class="section-title">Recommendations</h2>
+  </div>
+
+  {% if recommendations_summary %}
+  <div class="section-body">
+    <p class="body-text">{{ recommendations_summary }}</p>
+  </div>
+  {% endif %}
+
+  {% if recommendations %}
+  <div class="recommendations-list">
+    {% for rec in recommendations %}
+    <div class="recommendation-item">
+      <div class="rec-number">{{ loop.index }}</div>
+      <div class="rec-content">
+        <div class="rec-header">
+          <h3 class="rec-title">{{ rec.title }}</h3>
+          {% if rec.priority %}
+          <span class="rec-priority rec-priority--{{ rec.priority | lower }}">
+            {{ rec.priority | upper }}
+          </span>
+          {% endif %}
+        </div>
+
+        <p class="rec-desc">{{ rec.description }}</p>
+
+        <div class="rec-meta">
+          {% if rec.timeline %}
+          <span class="rec-meta-item"><strong>Timeline:</strong> {{ rec.timeline }}</span>
+          {% endif %}
+          {% if rec.owner %}
+          <span class="rec-meta-item"><strong>Owner:</strong> {{ rec.owner }}</span>
+          {% endif %}
+        </div>
+
+        {% if rec.expected_outcome %}
+        <div class="rec-outcome">
+          <strong>Expected Outcome:</strong> {{ rec.expected_outcome }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>

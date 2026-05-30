@@ -1,0 +1,45 @@
+<section class="report-section" id="section-market-overview">
+  <div class="section-header">
+    <h2 class="section-title">Market Overview</h2>
+  </div>
+
+  {% if market_description %}
+  <div class="section-body">
+    <p class="body-text">{{ market_description }}</p>
+  </div>
+  {% endif %}
+
+  {% if market_size or market_growth or geographic_scope %}
+  <div class="market-stats">
+    {% if market_size %}
+    <div class="market-stat-card">
+      <div class="market-stat-label">Market Size</div>
+      <div class="market-stat-value">{{ market_size }}</div>
+    </div>
+    {% endif %}
+    {% if market_growth %}
+    <div class="market-stat-card">
+      <div class="market-stat-label">Growth Rate (CAGR)</div>
+      <div class="market-stat-value">{{ market_growth }}</div>
+    </div>
+    {% endif %}
+    {% if geographic_scope %}
+    <div class="market-stat-card">
+      <div class="market-stat-label">Geographic Scope</div>
+      <div class="market-stat-value">{{ geographic_scope }}</div>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if market_segments %}
+  <div class="subsection">
+    <h3 class="subsection-title">Market Segments</h3>
+    <ul class="segment-list">
+      {% for segment in market_segments %}
+      <li class="segment-item">{{ segment }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</section>

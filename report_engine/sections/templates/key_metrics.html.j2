@@ -1,0 +1,27 @@
+<section class="report-section" id="section-key-metrics">
+  <div class="section-header">
+    <h2 class="section-title">Key Metrics</h2>
+  </div>
+
+  {% if metrics %}
+  <div class="metrics-grid">
+    {% for metric in metrics %}
+    <div class="metric-card">
+      <div class="metric-value">
+        {{ metric.value }}{% if metric.unit %}<span class="metric-unit">{{ metric.unit }}</span>{% endif %}
+      </div>
+      <div class="metric-label">{{ metric.label }}</div>
+      {% if metric.change %}
+      <div class="metric-change metric-change--{% if metric.trend == 'up' %}up{% elif metric.trend == 'down' %}down{% else %}neutral{% endif %}">
+        {% if metric.trend == 'up' %}▲{% elif metric.trend == 'down' %}▼{% else %}—{% endif %}
+        {{ metric.change }}
+      </div>
+      {% endif %}
+      {% if metric.description %}
+      <div class="metric-desc">{{ metric.description }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>

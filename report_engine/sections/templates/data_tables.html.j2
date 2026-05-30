@@ -1,0 +1,34 @@
+<section class="report-section" id="section-data-tables">
+  <div class="section-header">
+    <h2 class="section-title">Data Tables</h2>
+  </div>
+
+  {% if tables %}
+  {% for table in tables %}
+  <div class="table-block">
+    <h3 class="table-title">{{ table.title }}</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          {% for header in table.headers %}
+          <th>{{ header }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in table.rows %}
+        <tr class="{% if loop.index is odd %}row-odd{% else %}row-even{% endif %}">
+          {% for cell in row %}
+          <td>{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if table.notes %}
+    <p class="table-notes">* {{ table.notes }}</p>
+    {% endif %}
+  </div>
+  {% endfor %}
+  {% endif %}
+</section>

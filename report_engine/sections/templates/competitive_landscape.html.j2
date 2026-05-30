@@ -1,0 +1,75 @@
+<section class="report-section" id="section-competitive-landscape">
+  <div class="section-header">
+    <h2 class="section-title">Competitive Landscape</h2>
+  </div>
+
+  {% if competitive_summary %}
+  <div class="section-body">
+    <p class="body-text">{{ competitive_summary }}</p>
+  </div>
+  {% endif %}
+
+  {% if competitors %}
+  <div class="competitors-grid">
+    {% for competitor in competitors %}
+    <div class="competitor-card">
+      <div class="competitor-header">
+        <h3 class="competitor-name">{{ competitor.name }}</h3>
+        {% if competitor.market_share %}
+        <span class="competitor-share">{{ competitor.market_share }} market share</span>
+        {% endif %}
+      </div>
+
+      {% if competitor.description %}
+      <p class="competitor-desc">{{ competitor.description }}</p>
+      {% endif %}
+
+      <div class="competitor-meta">
+        {% if competitor.headquarters %}
+        <span class="competitor-meta-item"><strong>HQ:</strong> {{ competitor.headquarters }}</span>
+        {% endif %}
+        {% if competitor.founding_year %}
+        <span class="competitor-meta-item"><strong>Founded:</strong> {{ competitor.founding_year }}</span>
+        {% endif %}
+      </div>
+
+      {% if competitor.key_products %}
+      <div class="competitor-products">
+        <strong>Key Products:</strong>
+        <ul class="compact-list">
+          {% for product in competitor.key_products %}
+          <li>{{ product }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      {% if competitor.strengths or competitor.weaknesses %}
+      <div class="competitor-sw">
+        {% if competitor.strengths %}
+        <div class="competitor-sw-col">
+          <div class="sw-label sw-label--strength">Strengths</div>
+          <ul class="compact-list">
+            {% for s in competitor.strengths %}
+            <li>{{ s }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        {% if competitor.weaknesses %}
+        <div class="competitor-sw-col">
+          <div class="sw-label sw-label--weakness">Weaknesses</div>
+          <ul class="compact-list">
+            {% for w in competitor.weaknesses %}
+            <li>{{ w }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>

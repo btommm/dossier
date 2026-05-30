@@ -1,0 +1,33 @@
+<section class="report-section appendix-section" id="section-appendix">
+  <div class="section-header">
+    <h2 class="section-title">Appendix</h2>
+  </div>
+
+  {% if appendix %}
+  <div class="section-body">
+    <p class="body-text">{{ appendix }}</p>
+  </div>
+  {% endif %}
+
+  {% if raw_data %}
+  <div class="subsection">
+    <h3 class="subsection-title">Supporting Data</h3>
+    <div class="raw-data-block">
+      {% for key, value in raw_data.items() %}
+      <div class="raw-data-entry">
+        <span class="raw-data-key">{{ key }}</span>
+        <span class="raw-data-value">
+          {% if value is mapping %}
+            {% for k, v in value.items() %}<em>{{ k }}:</em> {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}
+          {% elif value is iterable and value is not string %}
+            {{ value | join(', ') }}
+          {% else %}
+            {{ value }}
+          {% endif %}
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</section>

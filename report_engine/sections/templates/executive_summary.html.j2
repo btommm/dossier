@@ -1,0 +1,22 @@
+<section class="report-section" id="section-executive-summary">
+  <div class="section-header">
+    <h2 class="section-title">Executive Summary</h2>
+  </div>
+
+  {% if summary %}
+  <div class="section-body">
+    <p class="body-text">{{ summary }}</p>
+  </div>
+  {% endif %}
+
+  {% if key_findings %}
+  <div class="callout-box">
+    <h3 class="callout-title">Key Findings</h3>
+    <ul class="findings-list">
+      {% for finding in key_findings %}
+      <li class="findings-item">{{ finding }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</section>

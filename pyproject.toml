@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dossier"
+version = "0.1.0"
+description = "Intelligent PDF report engine — turns structured research data into consulting-grade reports"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "weasyprint>=62.0",
+  "click>=8.0",
+  "pydantic>=2.0",
+  "anthropic>=0.25.0",
+  "jinja2>=3.0",
+  "python-dotenv",
+]
+
+[project.scripts]
+dossier = "report_engine.cli:cli"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+  "pytest-mock>=3.0",
+]
+# Windows fallback renderer (no system library requirements)
+windows = [
+  "xhtml2pdf>=0.2.17",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["report_engine*"]
+
+[tool.setuptools.package-data]
+"report_engine" = ["sections/templates/*.j2", "styles/*.css"]

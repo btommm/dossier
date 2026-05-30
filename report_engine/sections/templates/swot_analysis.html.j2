@@ -1,0 +1,57 @@
+<section class="report-section" id="section-swot">
+  <div class="section-header">
+    <h2 class="section-title">SWOT Analysis</h2>
+  </div>
+
+  {% if swot %}
+  <div class="swot-grid">
+    <div class="swot-quadrant swot-strengths">
+      <div class="swot-quadrant-header">
+        <span class="swot-icon">S</span>
+        <h3 class="swot-quadrant-title">Strengths</h3>
+      </div>
+      <ul class="swot-list">
+        {% for item in swot.strengths %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="swot-quadrant swot-weaknesses">
+      <div class="swot-quadrant-header">
+        <span class="swot-icon">W</span>
+        <h3 class="swot-quadrant-title">Weaknesses</h3>
+      </div>
+      <ul class="swot-list">
+        {% for item in swot.weaknesses %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="swot-quadrant swot-opportunities">
+      <div class="swot-quadrant-header">
+        <span class="swot-icon">O</span>
+        <h3 class="swot-quadrant-title">Opportunities</h3>
+      </div>
+      <ul class="swot-list">
+        {% for item in swot.opportunities %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="swot-quadrant swot-threats">
+      <div class="swot-quadrant-header">
+        <span class="swot-icon">T</span>
+        <h3 class="swot-quadrant-title">Threats</h3>
+      </div>
+      <ul class="swot-list">
+        {% for item in swot.threats %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+</section>

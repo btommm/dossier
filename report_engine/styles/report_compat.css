@@ -1,0 +1,462 @@
+/* Compatibility stylesheet for xhtml2pdf (no CSS variables, no flexbox, no named @page) */
+
+@page {
+  size: a4 portrait;
+  margin: 1.25in;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.65;
+  color: #2d2d2d;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4 {
+  color: #1a1a2e;
+  margin-top: 0;
+}
+
+p { margin: 0 0 0.75em; }
+
+ul, ol { padding-left: 1.25em; margin: 0.5em 0; }
+li { margin-bottom: 0.3em; }
+
+/* Cover page */
+.cover-page {
+  background-color: #1a1a2e;
+  padding: 1.5in 1.25in;
+  page-break-after: always;
+  color: #ffffff;
+  min-height: 8in;
+}
+
+.cover-confidential {
+  font-size: 7.5pt;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #888888;
+  margin-bottom: 2in;
+}
+
+.cover-title {
+  font-size: 28pt;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+.cover-subtitle {
+  font-size: 13pt;
+  color: #cccccc;
+  margin: 0;
+}
+
+.cover-rule {
+  border-top: 4px solid #0f9fff;
+  margin-bottom: 1.5rem;
+  width: 4rem;
+}
+
+.cover-rule--thin {
+  border-top: 1px solid #444466;
+  width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+
+.cover-footer {
+  margin-top: 1in;
+}
+
+.cover-footer-item {
+  margin-bottom: 0.5rem;
+}
+
+.cover-footer-label {
+  font-size: 7.5pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #888888;
+  display: block;
+}
+
+.cover-footer-value {
+  font-size: 10pt;
+  color: #cccccc;
+}
+
+/* Sections */
+.report-section {
+  margin-bottom: 0.6in;
+  page-break-inside: avoid;
+}
+
+.section-header {
+  border-bottom: 2px solid #0f4c75;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.section-title {
+  font-size: 18pt;
+  color: #0f4c75;
+  margin: 0;
+  font-weight: bold;
+}
+
+.subsection { margin-top: 1rem; }
+
+.subsection-title {
+  font-size: 11pt;
+  font-weight: bold;
+  color: #1a1a2e;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section-body { margin-bottom: 1rem; }
+
+.body-text {
+  font-size: 10.5pt;
+  line-height: 1.7;
+  color: #2d2d2d;
+}
+
+/* Callout box */
+.callout-box {
+  background-color: #e8f4f8;
+  border-left: 4px solid #0f4c75;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+}
+
+.callout-title {
+  font-size: 10pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0f4c75;
+  margin: 0 0 0.5rem;
+}
+
+.findings-list { margin: 0; padding-left: 1.2em; }
+.findings-item { font-size: 10.5pt; margin-bottom: 0.35rem; color: #2d2d2d; }
+
+/* Market stats — stack vertically in compat mode */
+.market-stats { margin: 1rem 0; }
+
+.market-stat-card {
+  background-color: #e8f4f8;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.market-stat-label {
+  font-size: 8pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0f4c75;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.market-stat-value {
+  font-size: 16pt;
+  font-weight: bold;
+  color: #1a1a2e;
+  display: block;
+}
+
+.segment-list { list-style: none; padding: 0; margin: 0; }
+.segment-item {
+  background-color: #e8f4f8;
+  border: 1px solid #e0e0e0;
+  padding: 0.2rem 0.6rem;
+  margin-bottom: 0.2rem;
+  font-size: 9pt;
+  color: #0f4c75;
+  font-weight: 500;
+  display: inline-block;
+  margin-right: 0.3rem;
+}
+
+/* Competitors */
+.competitors-grid { margin-top: 0.5rem; }
+
+.competitor-card {
+  border: 1px solid #e0e0e0;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.75rem;
+  page-break-inside: avoid;
+}
+
+.competitor-name {
+  font-size: 12pt;
+  font-weight: bold;
+  color: #1a1a2e;
+  margin: 0 0 0.2rem;
+}
+
+.competitor-share {
+  font-size: 9pt;
+  font-weight: bold;
+  color: #0f4c75;
+  background-color: #e8f4f8;
+  padding: 0.15rem 0.5rem;
+}
+
+.competitor-desc { font-size: 10pt; color: #2d2d2d; margin: 0.3rem 0 0.5rem; }
+
+.competitor-meta { font-size: 9pt; color: #666666; margin-bottom: 0.5rem; }
+.competitor-meta-item { margin-right: 1rem; }
+
+.competitor-products { margin: 0.5rem 0; font-size: 9.5pt; }
+
+.sw-label {
+  font-size: 8pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.2rem;
+  padding: 0.1rem 0.3rem;
+  display: inline-block;
+}
+
+.sw-label--strength { background-color: #e8f5e9; color: #2e7d32; }
+.sw-label--weakness { background-color: #ffebee; color: #c62828; }
+
+.compact-list { font-size: 9pt; margin: 0.2rem 0 0; padding-left: 1.1em; }
+.compact-list li { margin-bottom: 0.15rem; }
+
+/* SWOT */
+.swot-grid { margin-top: 0.5rem; }
+
+.swot-quadrant {
+  padding: 0.7rem 0.85rem;
+  margin-bottom: 0.5rem;
+  page-break-inside: avoid;
+  width: 48%;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 1%;
+}
+
+.swot-strengths    { background-color: #e8f5e9; border-top: 3px solid #4caf50; }
+.swot-weaknesses   { background-color: #ffebee; border-top: 3px solid #f44336; }
+.swot-opportunities{ background-color: #e3f2fd; border-top: 3px solid #2196f3; }
+.swot-threats      { background-color: #fff3e0; border-top: 3px solid #ff9800; }
+
+.swot-icon {
+  font-weight: bold;
+  font-size: 11pt;
+  color: white;
+  background-color: #666;
+  padding: 2px 6px;
+  margin-right: 0.4rem;
+}
+
+.swot-strengths     .swot-icon { background-color: #4caf50; }
+.swot-weaknesses    .swot-icon { background-color: #f44336; }
+.swot-opportunities .swot-icon { background-color: #2196f3; }
+.swot-threats       .swot-icon { background-color: #ff9800; }
+
+.swot-quadrant-title {
+  font-size: 11pt;
+  font-weight: bold;
+  margin: 0 0 0.5rem;
+  color: #1a1a2e;
+  display: inline;
+}
+
+.swot-list { font-size: 9.5pt; margin: 0; padding-left: 1.2em; color: #2d2d2d; }
+.swot-list li { margin-bottom: 0.3rem; }
+
+/* Data tables */
+.table-block { margin-bottom: 1.25rem; page-break-inside: avoid; }
+
+.table-title {
+  font-size: 11pt;
+  font-weight: bold;
+  color: #1a1a2e;
+  margin: 0 0 0.4rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5pt;
+}
+
+.data-table thead tr { background-color: #1a1a2e; color: #ffffff; }
+
+.data-table th {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: bold;
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-table td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  color: #2d2d2d;
+}
+
+.data-table .row-even td { background-color: #f9f9f9; }
+.data-table .row-odd  td { background-color: #ffffff; }
+
+.table-notes { font-size: 8.5pt; color: #888888; margin: 0.4rem 0 0; font-style: italic; }
+
+/* Key metrics */
+.metrics-grid { margin-top: 0.5rem; }
+
+.metric-card {
+  border: 1px solid #e0e0e0;
+  padding: 0.85rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  page-break-inside: avoid;
+  display: inline-block;
+  width: 30%;
+  margin-right: 2%;
+  vertical-align: top;
+}
+
+.metric-value {
+  font-size: 22pt;
+  font-weight: bold;
+  color: #0f4c75;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.metric-unit { font-size: 13pt; font-weight: normal; }
+
+.metric-label {
+  font-size: 9pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1a1a2e;
+  margin-bottom: 0.2rem;
+}
+
+.metric-change { font-size: 9pt; font-weight: bold; margin-top: 0.2rem; }
+.metric-change--up      { color: #2e7d32; }
+.metric-change--down    { color: #c62828; }
+.metric-change--neutral { color: #757575; }
+.metric-desc { font-size: 8.5pt; color: #888888; margin-top: 0.25rem; line-height: 1.4; }
+
+/* Trends */
+.trends-list { margin-top: 0.5rem; }
+
+.trend-item {
+  border: 1px solid #e0e0e0;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.6rem;
+  page-break-inside: avoid;
+}
+
+.trend-title {
+  font-size: 11.5pt;
+  font-weight: bold;
+  color: #1a1a2e;
+  margin: 0 0 0.3rem;
+}
+
+.trend-impact {
+  font-size: 7.5pt;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  padding: 0.1rem 0.4rem;
+}
+
+.trend-impact--high   { background-color: #ffebee; color: #c62828; }
+.trend-impact--medium { background-color: #fff3e0; color: #ef6c00; }
+.trend-impact--low    { background-color: #e8f5e9; color: #2e7d32; }
+
+.trend-desc { font-size: 10pt; margin: 0 0 0.35rem; }
+.trend-meta { font-size: 9pt; color: #666666; margin-bottom: 0.3rem; }
+.trend-drivers { font-size: 9.5pt; }
+
+/* Recommendations */
+.recommendations-list { margin-top: 0.5rem; }
+
+.recommendation-item {
+  margin-bottom: 0.85rem;
+  page-break-inside: avoid;
+  padding-left: 2.5rem;
+  position: relative;
+}
+
+.rec-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  background-color: #0f4c75;
+  color: white;
+  font-weight: bold;
+  font-size: 11pt;
+  text-align: center;
+  line-height: 28px;
+}
+
+.rec-title {
+  font-size: 12pt;
+  font-weight: bold;
+  color: #1a1a2e;
+  margin: 0 0 0.25rem;
+}
+
+.rec-priority {
+  font-size: 7.5pt;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  padding: 0.1rem 0.4rem;
+}
+
+.rec-priority--high   { background-color: #ffebee; color: #c62828; }
+.rec-priority--medium { background-color: #fff3e0; color: #ef6c00; }
+.rec-priority--low    { background-color: #e8f5e9; color: #2e7d32; }
+
+.rec-desc { font-size: 10pt; margin: 0 0 0.35rem; }
+.rec-meta { font-size: 9pt; color: #666666; margin-bottom: 0.3rem; }
+.rec-meta-item { margin-right: 1.5rem; }
+.rec-outcome {
+  font-size: 9.5pt;
+  background-color: #e8f4f8;
+  padding: 0.35rem 0.5rem;
+  color: #2d2d2d;
+}
+
+/* Appendix */
+.appendix-section { page-break-before: always; }
+
+.raw-data-block {
+  border: 1px solid #e0e0e0;
+}
+
+.raw-data-entry {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 9.5pt;
+}
+
+.raw-data-entry:last-child { border-bottom: none; }
+.raw-data-key { font-weight: bold; color: #0f4c75; display: inline-block; min-width: 180px; }
+.raw-data-value { color: #2d2d2d; }
+
+.page-break { page-break-after: always; }

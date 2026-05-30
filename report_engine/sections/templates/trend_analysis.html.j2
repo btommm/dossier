@@ -1,0 +1,47 @@
+<section class="report-section" id="section-trends">
+  <div class="section-header">
+    <h2 class="section-title">Trend Analysis</h2>
+  </div>
+
+  {% if trends_summary %}
+  <div class="section-body">
+    <p class="body-text">{{ trends_summary }}</p>
+  </div>
+  {% endif %}
+
+  {% if trends %}
+  <div class="trends-list">
+    {% for trend in trends %}
+    <div class="trend-item">
+      <div class="trend-header">
+        <h3 class="trend-title">{{ trend.title }}</h3>
+        {% if trend.impact %}
+        <span class="trend-impact trend-impact--{{ trend.impact | lower }}">
+          {{ trend.impact | upper }} IMPACT
+        </span>
+        {% endif %}
+      </div>
+
+      <p class="trend-desc">{{ trend.description }}</p>
+
+      <div class="trend-meta">
+        {% if trend.timeframe %}
+        <span class="trend-meta-item"><strong>Timeframe:</strong> {{ trend.timeframe }}</span>
+        {% endif %}
+      </div>
+
+      {% if trend.drivers %}
+      <div class="trend-drivers">
+        <strong>Key Drivers:</strong>
+        <ul class="compact-list">
+          {% for driver in trend.drivers %}
+          <li>{{ driver }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>

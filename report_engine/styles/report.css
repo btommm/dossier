@@ -1,0 +1,741 @@
+/* Google Fonts removed for offline/WeasyPrint compatibility — system font fallbacks used */
+
+/* ================================================================
+   CSS Custom Properties
+   ================================================================ */
+:root {
+  --primary:   #1a1a2e;
+  --accent:    #0f4c75;
+  --highlight: #e8f4f8;
+  --text:      #2d2d2d;
+  --divider:   #e0e0e0;
+  --white:     #ffffff;
+  --row-alt:   #f9f9f9;
+
+  /* SWOT quadrant tints */
+  --swot-green:  #e8f5e9;
+  --swot-red:    #ffebee;
+  --swot-blue:   #e3f2fd;
+  --swot-orange: #fff3e0;
+
+  /* Impact/Priority colours */
+  --impact-high:   #c62828;
+  --impact-medium: #ef6c00;
+  --impact-low:    #2e7d32;
+
+  --font-body:    Arial, Helvetica, sans-serif;
+  --font-heading: Georgia, 'Times New Roman', serif;
+}
+
+/* ================================================================
+   Page setup
+   ================================================================ */
+@page {
+  size: A4;
+  margin: 1.25in;
+
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+    font-family: var(--font-body);
+    font-size: 9pt;
+    color: #888888;
+    margin-top: 0.25in;
+  }
+}
+
+@page cover-page {
+  margin: 0;
+  @bottom-center { content: none; }
+  @top-center    { content: none; }
+}
+
+/* ================================================================
+   Base typography
+   ================================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 10.5pt;
+  line-height: 1.65;
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--primary);
+  margin-top: 0;
+}
+
+p { margin: 0 0 0.75em; }
+
+a { color: var(--accent); }
+
+ul, ol {
+  padding-left: 1.25em;
+  margin: 0.5em 0;
+}
+
+li { margin-bottom: 0.3em; }
+
+/* ================================================================
+   Cover page
+   ================================================================ */
+.cover-page {
+  page: cover-page;
+  background: var(--primary);
+  width: 100%;
+  height: 270mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5in 1.25in;
+  page-break-after: always;
+  color: var(--white);
+}
+
+.cover-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.cover-confidential {
+  font-family: var(--font-body);
+  font-size: 7.5pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 2in;
+}
+
+.cover-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cover-rule {
+  width: 4rem;
+  height: 4px;
+  background: #0f9fff;
+  margin-bottom: 1.5rem;
+  border: none;
+}
+
+.cover-rule--thin {
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+
+.cover-title {
+  font-family: var(--font-heading);
+  font-size: 32pt;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+  max-width: 80%;
+}
+
+.cover-subtitle {
+  font-family: var(--font-body);
+  font-size: 13pt;
+  font-weight: 300;
+  color: rgba(255,255,255,0.75);
+  margin: 0;
+}
+
+.cover-footer {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1in;
+}
+
+.cover-footer-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.cover-footer-label {
+  font-size: 7.5pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 0.2rem;
+}
+
+.cover-footer-value {
+  font-size: 10pt;
+  color: rgba(255,255,255,0.85);
+}
+
+/* ================================================================
+   Report sections
+   ================================================================ */
+.report-section {
+  margin-bottom: 0.6in;
+  page-break-inside: avoid;
+}
+
+.section-header {
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  color: var(--accent);
+  margin: 0;
+  font-weight: 700;
+}
+
+.subsection { margin-top: 1rem; }
+
+.subsection-title {
+  font-size: 12pt;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 0.5rem;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section-body { margin-bottom: 1rem; }
+
+.body-text {
+  font-size: 10.5pt;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* ================================================================
+   Callout / highlight box
+   ================================================================ */
+.callout-box {
+  background: var(--highlight);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+}
+
+.callout-title {
+  font-family: var(--font-body);
+  font-size: 10pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+
+.findings-list {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.findings-item {
+  font-size: 10.5pt;
+  margin-bottom: 0.35rem;
+  color: var(--text);
+}
+
+/* ================================================================
+   Market overview
+   ================================================================ */
+.market-stats {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.market-stat-card {
+  flex: 1;
+  min-width: 120px;
+  background: var(--highlight);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  text-align: center;
+}
+
+.market-stat-label {
+  font-size: 8pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+.market-stat-value {
+  font-size: 16pt;
+  font-weight: 700;
+  color: var(--primary);
+  font-family: var(--font-body);
+}
+
+.segment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.segment-item {
+  background: var(--highlight);
+  border: 1px solid var(--divider);
+  border-radius: 3px;
+  padding: 0.2rem 0.6rem;
+  font-size: 9pt;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ================================================================
+   Competitors
+   ================================================================ */
+.competitors-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.competitor-card {
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  page-break-inside: avoid;
+}
+
+.competitor-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.competitor-name {
+  font-family: var(--font-body);
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.competitor-share {
+  font-size: 9pt;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--highlight);
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+}
+
+.competitor-desc {
+  font-size: 10pt;
+  color: var(--text);
+  margin: 0.3rem 0 0.5rem;
+}
+
+.competitor-meta {
+  font-size: 9pt;
+  color: #666;
+  margin-bottom: 0.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.competitor-products { margin: 0.5rem 0; font-size: 9.5pt; }
+
+.competitor-sw {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.competitor-sw-col { flex: 1; }
+
+.sw-label {
+  font-size: 8pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.3rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.sw-label--strength  { background: var(--swot-green);  color: #2e7d32; }
+.sw-label--weakness  { background: var(--swot-red);    color: #c62828; }
+
+.compact-list {
+  font-size: 9pt;
+  margin: 0.2rem 0 0;
+  padding-left: 1.1em;
+}
+
+.compact-list li { margin-bottom: 0.15rem; }
+
+/* ================================================================
+   SWOT Analysis
+   ================================================================ */
+.swot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.swot-quadrant {
+  flex: 1;
+  min-width: calc(50% - 0.75rem);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  page-break-inside: avoid;
+}
+
+.swot-strengths    { background: var(--swot-green);  border-top: 3px solid #4caf50; }
+.swot-weaknesses   { background: var(--swot-red);    border-top: 3px solid #f44336; }
+.swot-opportunities{ background: var(--swot-blue);   border-top: 3px solid #2196f3; }
+.swot-threats      { background: var(--swot-orange); border-top: 3px solid #ff9800; }
+
+.swot-quadrant-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.swot-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 10pt;
+  color: white;
+}
+
+.swot-strengths     .swot-icon { background: #4caf50; }
+.swot-weaknesses    .swot-icon { background: #f44336; }
+.swot-opportunities .swot-icon { background: #2196f3; }
+.swot-threats       .swot-icon { background: #ff9800; }
+
+.swot-quadrant-title {
+  font-family: var(--font-body);
+  font-size: 11pt;
+  font-weight: 700;
+  margin: 0;
+  color: var(--primary);
+}
+
+.swot-list {
+  font-size: 9.5pt;
+  margin: 0;
+  padding-left: 1.2em;
+  color: var(--text);
+}
+
+.swot-list li { margin-bottom: 0.3rem; }
+
+/* ================================================================
+   Data tables
+   ================================================================ */
+.table-block { margin-bottom: 1.5rem; page-break-inside: avoid; }
+
+.table-title {
+  font-family: var(--font-body);
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.5rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5pt;
+}
+
+.data-table thead tr {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.data-table th {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-table td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--divider);
+  color: var(--text);
+}
+
+.data-table .row-even td { background: var(--row-alt); }
+.data-table .row-odd  td { background: var(--white); }
+
+.table-notes {
+  font-size: 8.5pt;
+  color: #888;
+  margin: 0.4rem 0 0;
+  font-style: italic;
+}
+
+/* ================================================================
+   Key Metrics
+   ================================================================ */
+.metrics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.metric-card {
+  flex: 1;
+  min-width: 130px;
+  max-width: calc(33.33% - 0.85rem);
+  background: var(--white);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #e8e8e8;
+  page-break-inside: avoid;
+}
+
+.metric-value {
+  font-size: 26pt;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+  font-family: var(--font-body);
+}
+
+.metric-unit {
+  font-size: 14pt;
+  font-weight: 400;
+}
+
+.metric-label {
+  font-size: 9pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.metric-change {
+  font-size: 9pt;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.metric-change--up      { color: #2e7d32; }
+.metric-change--down    { color: #c62828; }
+.metric-change--neutral { color: #757575; }
+
+.metric-desc {
+  font-size: 8.5pt;
+  color: #888;
+  margin-top: 0.3rem;
+  line-height: 1.4;
+}
+
+/* ================================================================
+   Trend Analysis
+   ================================================================ */
+.trends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.trend-item {
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  page-break-inside: avoid;
+}
+
+.trend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.trend-title {
+  font-family: var(--font-body);
+  font-size: 11.5pt;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.trend-impact {
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+}
+
+.trend-impact--high   { background: #ffebee; color: var(--impact-high); }
+.trend-impact--medium { background: #fff3e0; color: var(--impact-medium); }
+.trend-impact--low    { background: #e8f5e9; color: var(--impact-low); }
+
+.trend-desc { font-size: 10pt; margin: 0 0 0.4rem; }
+
+.trend-meta {
+  font-size: 9pt;
+  color: #666;
+  margin-bottom: 0.4rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.trend-drivers { font-size: 9.5pt; }
+
+/* ================================================================
+   Recommendations
+   ================================================================ */
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.recommendation-item {
+  display: flex;
+  gap: 1rem;
+  page-break-inside: avoid;
+}
+
+.rec-number {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 11pt;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.rec-content { flex: 1; }
+
+.rec-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.3rem;
+}
+
+.rec-title {
+  font-family: var(--font-body);
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.rec-priority {
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+}
+
+.rec-priority--high   { background: #ffebee; color: var(--impact-high); }
+.rec-priority--medium { background: #fff3e0; color: var(--impact-medium); }
+.rec-priority--low    { background: #e8f5e9; color: var(--impact-low); }
+
+.rec-desc { font-size: 10pt; margin: 0 0 0.4rem; }
+
+.rec-meta {
+  font-size: 9pt;
+  color: #666;
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.rec-outcome {
+  font-size: 9.5pt;
+  background: var(--highlight);
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  color: var(--text);
+}
+
+/* ================================================================
+   Appendix
+   ================================================================ */
+.appendix-section {
+  page-break-before: always;
+}
+
+.raw-data-block {
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.raw-data-entry {
+  display: flex;
+  gap: 1rem;
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--divider);
+  font-size: 9.5pt;
+}
+
+.raw-data-entry:last-child { border-bottom: none; }
+.raw-data-entry:nth-child(even) { background: var(--row-alt); }
+
+.raw-data-key {
+  font-weight: 600;
+  color: var(--accent);
+  min-width: 150px;
+}
+
+.raw-data-value { color: var(--text); }
+
+/* ================================================================
+   Page break helper
+   ================================================================ */
+.page-break { page-break-after: always; }
