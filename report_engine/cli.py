@@ -1,4 +1,4 @@
-"""CLI entry point for report-engine."""
+"""CLI entry point for dossier."""
 
 from __future__ import annotations
 
@@ -8,14 +8,8 @@ import sys
 from pathlib import Path
 
 import click
-from dotenv import load_dotenv
 
-load_dotenv()
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(levelname)s  %(name)s: %(message)s",
-)
+logging.basicConfig(level=logging.INFO, format="%(levelname)s  %(name)s: %(message)s")
 logger = logging.getLogger("dossier")
 
 
@@ -29,14 +23,12 @@ def cli() -> None:
 @click.argument("input_file", type=click.Path(exists=True, path_type=Path))
 @click.option("--output", "-o", default=None, help="Output PDF path (default: <input>.pdf)")
 @click.option("--title", default=None, help="Override report title")
-@click.option("--no-ai", is_flag=True, default=False, help="Skip LLM section selection; use deterministic ordering")
-@click.option("--preview", is_flag=True, default=False, help="Open the PDF after generation (requires a PDF viewer)")
-@click.option("--html-only", is_flag=True, default=False, help="Write HTML instead of PDF (useful for debugging)")
+@click.option("--preview", is_flag=True, default=False, help="Open the PDF after generation")
+@click.option("--html-only", is_flag=True, default=False, help="Write HTML instead of PDF")
 def generate(
     input_file: Path,
     output: str | None,
     title: str | None,
-    no_ai: bool,
     preview: bool,
     html_only: bool,
 ) -> None:
@@ -45,7 +37,6 @@ def generate(
     from report_engine.schema import ReportInput
     from report_engine.selector import select_sections
 
-    # Load and validate input
     try:
         raw = json.loads(input_file.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
@@ -62,21 +53,12 @@ def generate(
         sys.exit(1)
 
     data_dict = report_data.model_dump()
-
-    # Determine output path
     suffix = ".html" if html_only else ".pdf"
     out_path = Path(output) if output else input_file.with_suffix(suffix)
 
-    # Select sections
-    click.echo(f"Selecting sections ({'AI' if not no_ai else 'deterministic'})…")
-    section_ids = select_sections(
-        data_dict,
-        report_title=data_dict.get("title"),
-        use_ai=not no_ai,
-    )
+    section_ids = select_sections(data_dict)
     click.echo(f"Sections: {', '.join(section_ids)}")
 
-    # Render
     if html_only:
         html = render_html(section_ids, data_dict)
         out_path.write_text(html, encoding="utf-8")
@@ -88,96 +70,12 @@ def generate(
 
         if preview:
             import os
-            os.startfile(str(out_path)) if sys.platform == "win32" else (
-                __import__("subprocess").run(["open" if sys.platform == "darwin" else "xdg-open", str(out_path)])
-            )
-
-
-@cli.command()
-@click.argument("topic")
-@click.option("--output", "-o", default=None, help="Save research JSON to this path")
-@click.option("--depth", type=click.Choice(["quick", "standard", "deep"]), default="standard", show_default=True)
-@click.option("--date", default=None, help="Report date label (default: current month/year)")
-def research(topic: str, output: str | None, depth: str, date: str | None) -> None:
-    """Research TOPIC using Claude + web search and save the data as JSON.
-
-    Example: dossier research "Global fintech market 2025"
-    """
-    from report_engine.research import research_topic
-
-    click.echo(f"Researching: {topic!r}  (depth={depth})")
-    data = research_topic(topic, depth=depth, date=date)
-
-    out_path = Path(output) if output else Path(f"{topic[:60].replace(' ', '_').lower()}.json")
-    out_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
-    click.echo(f"Research saved to: {out_path}")
-
-    # Summary of what was populated
-    populated = [k for k, v in data.items() if v is not None]
-    click.echo(f"Fields populated: {', '.join(populated)}")
-
-
-@cli.command()
-@click.argument("topic")
-@click.option("--output", "-o", default=None, help="Output PDF path (default: <slug>.pdf)")
-@click.option("--depth", type=click.Choice(["quick", "standard", "deep"]), default="standard", show_default=True)
-@click.option("--date", default=None, help="Report date label")
-@click.option("--no-ai", is_flag=True, default=False, help="Skip AI section ordering")
-@click.option("--preview", is_flag=True, default=False, help="Open the PDF after generation")
-@click.option("--save-json", default=None, help="Also save the research JSON to this path")
-def run(
-    topic: str,
-    output: str | None,
-    depth: str,
-    date: str | None,
-    no_ai: bool,
-    preview: bool,
-    save_json: str | None,
-) -> None:
-    """Research TOPIC and generate a PDF report in one step.
-
-    Example: dossier run "Global fintech market 2025" --output fintech.pdf
-    """
-    from report_engine.renderer import generate as do_generate
-    from report_engine.research import research_topic
-    from report_engine.schema import ReportInput
-    from report_engine.selector import select_sections
-
-    # --- Research ---
-    click.echo(f"Researching: {topic!r}  (depth={depth})")
-    raw = research_topic(topic, depth=depth, date=date)
-
-    if save_json:
-        Path(save_json).write_text(json.dumps(raw, indent=2), encoding="utf-8")
-        click.echo(f"Research JSON saved to: {save_json}")
-
-    # --- Validate ---
-    try:
-        report_data = ReportInput.model_validate(raw)
-    except Exception as exc:
-        click.echo(f"Validation error:\n{exc}", err=True)
-        sys.exit(1)
-
-    data_dict = report_data.model_dump()
-    slug = topic[:60].replace(" ", "_").lower()
-    out_path = Path(output) if output else Path(f"{slug}.pdf")
-
-    # --- Select sections ---
-    click.echo(f"Selecting sections ({'AI' if not no_ai else 'deterministic'})…")
-    section_ids = select_sections(data_dict, report_title=data_dict.get("title"), use_ai=not no_ai)
-    click.echo(f"Sections: {', '.join(section_ids)}")
-
-    # --- Render ---
-    click.echo("Rendering PDF…")
-    do_generate(data_dict, section_ids, out_path)
-    click.echo(f"PDF written to: {out_path}")
-
-    if preview:
-        import os
-        if sys.platform == "win32":
-            os.startfile(str(out_path))
-        else:
-            __import__("subprocess").run(["open" if sys.platform == "darwin" else "xdg-open", str(out_path)])
+            if sys.platform == "win32":
+                os.startfile(str(out_path))
+            else:
+                __import__("subprocess").run(
+                    ["open" if sys.platform == "darwin" else "xdg-open", str(out_path)]
+                )
 
 
 @cli.command(name="list-sections")
@@ -218,13 +116,8 @@ def validate(input_file: Path) -> None:
     click.echo(f"Title: {data_dict['title']}\n")
 
     all_secs = sorted(all_sections(), key=lambda s: s.priority)
-    included = []
-    excluded = []
-    for sec in all_secs:
-        if sec.is_applicable(data_dict):
-            included.append(sec)
-        else:
-            excluded.append(sec)
+    included = [s for s in all_secs if s.is_applicable(data_dict)]
+    excluded = [s for s in all_secs if not s.is_applicable(data_dict)]
 
     click.echo(f"Sections INCLUDED ({len(included)}):")
     for s in included:

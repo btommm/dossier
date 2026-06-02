@@ -83,7 +83,7 @@ def generate_report(
         slug = slug.strip().replace(" ", "_").lower()
         output_path = str(reports_dir / f"{slug}.pdf")
 
-    return _generate(data, output_path=output_path, title=title, use_ai=False)
+    return _generate(data, output_path=output_path, title=title)
 
 
 if __name__ == "__main__":

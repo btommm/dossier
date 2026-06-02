@@ -12,9 +12,8 @@ dependencies = [
   "weasyprint>=62.0",
   "click>=8.0",
   "pydantic>=2.0",
-  "anthropic>=0.25.0",
   "jinja2>=3.0",
-  "python-dotenv",
+  "fastmcp>=2.0",
 ]
 
 [project.scripts]
