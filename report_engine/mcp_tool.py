@@ -40,7 +40,7 @@ def generate_report(
     data: dict,
     output_path: str,
     title: str | None = None,
-    use_ai: bool = True,
+    use_ai: bool = False,
 ) -> dict:
     """
     Generate a professional PDF report from structured research data.
